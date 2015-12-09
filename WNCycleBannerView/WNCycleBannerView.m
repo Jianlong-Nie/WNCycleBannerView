@@ -12,10 +12,8 @@
 
 @interface WNCycleBannerView () <UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) UIScrollView *scrollView;
-@property (assign, nonatomic) BOOL scrollViewBounces;
 
-@property (strong, nonatomic) UIPageControl *pageControl;
+@property (assign, nonatomic) BOOL scrollViewBounces;
 
 @property (strong, nonatomic) NSArray *datasourceImages;
 @property (assign, nonatomic) NSUInteger currentSelectedPage;
@@ -54,11 +52,14 @@ static void *kContentImageViewObservationContext = &kContentImageViewObservation
 
     NSArray *subViews = self.subviews;
     [subViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    if (_datasource) {
+        
     
     [self initialize];
     
     if (self.completeBlock) {
         self.completeBlock();
+    }
     }
 }
 
@@ -67,7 +68,7 @@ static void *kContentImageViewObservationContext = &kContentImageViewObservation
     
     [self initializeScrollView];
     [self initializePageControl];
-    
+    if(_datasource)
     [self loadData];
     
     // progress autoPlayTimeInterval
@@ -94,6 +95,8 @@ static void *kContentImageViewObservationContext = &kContentImageViewObservation
     _pageControl = [[UIPageControl alloc] initWithFrame:pageControlFrame];
     _pageControl.center = CGPointMake(CGRectGetWidth(_scrollView.frame)*0.5, CGRectGetHeight(_scrollView.frame) - 12.);
     _pageControl.userInteractionEnabled = NO;
+    _pageControl.currentPageIndicatorTintColor = [UIColor grayColor];
+    _pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     [self addSubview:_pageControl];
 }
 
